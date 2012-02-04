@@ -8,8 +8,11 @@ rule to inspect the class path to autoload class, but this costs a lot when requ
 
 ClassMap generator generates class file mapping into a pure PHP array file, you can simply require it to find class files.
 
+```php
+<?php
     $classMap = require 'class_map.php';
     $path = $classMap['PHPUnit'];   // returns path to PHPUnit classfile.
+```
 
 ## Requirements
 
@@ -24,6 +27,7 @@ ClassMap generator generates class file mapping into a pure PHP array file, you 
 
     $ ./classmap.phar src
 
+```php
     <?php return array (
         'Universal\\ClassLoader\\SplClassLoader' => 'phar:///Users/c9s/git/Work/ClassMap/classmap.phar/Universal/ClassLoader/SplClassLoader.php',
         'GetOptionKit\\GetOptionKit' => 'phar:///Users/c9s/git/Work/ClassMap/classmap.phar/GetOptionKit/GetOptionKit.php',
@@ -34,9 +38,13 @@ ClassMap generator generates class file mapping into a pure PHP array file, you 
         'GetOptionKit\\Argument' => 'phar:///Users/c9s/git/Work/ClassMap/classmap.phar/GetOptionKit/Argument.php',
         'ClassMap\\Generator' => 'phar:///Users/c9s/git/Work/ClassMap/classmap.phar/ClassMap/Generator.php',
     );
+```
 
 ## API Synopsis
 
+
+```php
+    <?php
     $mapGen = new ClassMap\Generator
     $mapGen->addDir( 'path/to/library' );
     $mapGen->addFile( );
@@ -44,15 +52,24 @@ ClassMap generator generates class file mapping into a pure PHP array file, you 
     $mapGen->generate( 'class_map.php', 'php' );
 
     $mapGen->autoload = true or false;  // turn on autoloader
+```
 
 To generate json format dictionary:
 
+```
+<?php
     $mapGen->generate( 'class_map.php', 'json' );
+```
 
 ## ClassMap File Format
 
+```php
     <?php
     return array(
         'class' => 'path/to/file.php',
     );
+```
 
+## Author
+
+Yo-An Lin <cornelius.howl@gmail.com>
