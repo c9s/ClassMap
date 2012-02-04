@@ -1,6 +1,10 @@
 <?php
 namespace ClassMap;
-use Universal\ClassLoader\UniversalClassLoader;
+use Universal\ClassLoader\BasePathClassLoader;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RegexIterator;
+use RecursiveRegexIterator;
 
 /**
  * ClassMap Generator
@@ -35,7 +39,15 @@ class Generator
         $loader->useEnvPhpLib();
         $loader->register();
         foreach( $this->paths as $path ) {
-            require $path;
+            $di = new RecursiveDirectoryIterator($path);
+            $ita = new RecursiveIteratorIterator($di);
+            $regex = new RegexIterator($ita, '/^.+\.php$/i', 
+                RecursiveRegexIterator::GET_MATCH);
+
+            foreach( $regex as $matches ) foreach( $matches as $match ) {
+                    require_once $match;
+            }
+
         }
     }
 
