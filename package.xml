@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.10" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0        http://pear.php.net/dtd/tasks-1.0.xsd        http://pear.php.net/dtd/package-2.0        http://pear.php.net/dtd/package-2.0.xsd">
+  <name>ClassMap</name>
+  <channel>pear.corneltek.com</channel>
+  <summary>summary here</summary>
+  <description>description here</description>
+  <lead>
+    <name>Yo-An Lin</name>
+    <user/>
+    <email>cornelius.howl@gmail.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2012-02-05</date>
+  <time>00:35:15</time>
+  <version>
+    <release>0.0.1</release>
+    <api>0.0.1</api>
+  </version>
+  <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+  </stability>
+  <license>PHP</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <file name="tests/bootstrap.php" role="test" md5sum="0ec1aff748d0e3a69242eabb2fb8cd30"/>
+      <file name="tests/ClassMap/GeneratorTest.php" role="test" md5sum="235cc9857eb6df2f35a8cc6aa7f410fb"/>
+      <file name="tests/helpers.php" role="test" md5sum="aae3a65fac318e1871de47062f2e4096"/>
+      <file name="tests/testmap.php" role="test" md5sum="a80a8056deaadc884d4ab9d2e3c754a2"/>
+      <file name="src/ClassMap/Generator.php" role="php" md5sum="e0a7ffba49c0a4870c23af90b1ec4eba"/>
+      <file name="classmap.phar" role="script" md5sum="e704669b7b720d022852c59df25be097"/>
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.3</min>
+      </php>
+      <pearinstaller>
+        <min>1.4</min>
+      </pearinstaller>
+      <package>
+        <name>Universal</name>
+        <channel>pear.corneltek.com</channel>
+        <min>0.0.0</min>
+      </package>
+      <package>
+        <name>GetOptionKit</name>
+        <channel>pear.corneltek.com</channel>
+        <min>0.0.0</min>
+      </package>
+    </required>
+  </dependencies>
+  <phprelease>
+    <filelist>
+      <install name="tests/bootstrap.php" as="bootstrap.php"/>
+      <install name="tests/ClassMap/GeneratorTest.php" as="ClassMap/GeneratorTest.php"/>
+      <install name="tests/helpers.php" as="helpers.php"/>
+      <install name="tests/testmap.php" as="testmap.php"/>
+      <install name="src/ClassMap/Generator.php" as="ClassMap/Generator.php"/>
+      <install name="classmap.phar" as="classmap.phar"/>
+    </filelist>
+  </phprelease>
+</package>
