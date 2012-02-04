@@ -19,13 +19,19 @@ try {
         $format = $result->format ? $result->format->value : 'php';
         array_shift( $args );
 
-        if( file_exists('src') )
-            $g->addDir('src');
+#          if( file_exists('src') )
+#              $g->addDir('src');
 
         foreach( $args as $arg ) {
-            $g->addDir( (string) $arg );
+            $g->addDir( realpath( (string) $arg ) );
         }
 
+        $g->addMapFilter( function($class,$path) { 
+            $ret = strpos( $path , 'classmap.phar' );
+            return ($ret === false);
+        });
+
+        $g->load();
 
         if( $result->file ) {
             $g->generateFile( $result->file->value , $format );

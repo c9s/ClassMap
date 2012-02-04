@@ -16,6 +16,7 @@ class Generator
 
     public $paths = array();
     public $filters = array();
+    public $mapFilters = array();
     public $autoloader;
     public $static = true;
 
@@ -28,7 +29,6 @@ class Generator
         $this->paths[] = $dir;
     }
 
-
     public function addFile($file)
     {
         $this->paths[] = $file;
@@ -37,6 +37,11 @@ class Generator
     public function addFilter($closure)
     {
         $this->filters[] = $closure;
+    }
+
+    public function addMapFilter($cb)
+    {
+        $this->mapFilters[] = $cb;
     }
 
     // XXX: doesnt work on namespace staff
@@ -53,6 +58,7 @@ class Generator
         $loader = new BasePathClassLoader( $this->paths );
         $loader->useEnvPhpLib();
         $loader->register();
+
         foreach( $this->paths as $path ) {
             $di = new RecursiveDirectoryIterator($path);
             $ita = new RecursiveIteratorIterator($di);
@@ -60,7 +66,12 @@ class Generator
                 RecursiveRegexIterator::GET_MATCH);
 
             foreach( $regex as $matches ) foreach( $matches as $match ) {
-                    require_once $match;
+                try {
+                    @require_once $match;
+                } 
+                catch ( Exception $e ) {
+                    echo "$match class load failed.\n";
+                }
             }
         }
     }
@@ -73,12 +84,20 @@ class Generator
         return $classes;
     }
 
-    public function getClassMap($classes)
+    public function getClassFileMap($classes)
     {
         $map = array();
         foreach( $classes as $c ) {
             $ref = new \ReflectionClass($c); 
             if( $path = $ref->getFileName() ) {
+                foreach( $this->mapFilters as $filter ) {
+                    if( ! call_user_func( $filter, $c , $path ) ) {
+                        echo "skip $path\n";
+                        continue 2;
+                    }
+                }
+
+                echo "set $c => $path\n";
                 $map[ $c ] = $path;
             }
         }
@@ -93,10 +112,11 @@ class Generator
             return $ref->getFileName() ? true : false;
         });
 
+
         $classes = get_declared_interfaces();
         $classes = array_merge($classes, get_declared_classes() );
         $classes = $this->filterClasses( $classes );
-        $classMap = $this->getClassMap( $classes );
+        $classMap = $this->getClassFileMap( $classes );
 
         switch($format)
         {
