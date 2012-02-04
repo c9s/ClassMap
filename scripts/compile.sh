@@ -5,5 +5,5 @@ onion -d compile \
     --classloader \
     --bootstrap scripts/classmap.php \
     --executable \
-    --output classmap-gen.phar
-chmod +x classmap-gen.phar
+    --output classmap.php
+chmod +x classmap.phar
