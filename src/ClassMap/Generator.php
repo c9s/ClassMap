@@ -15,6 +15,7 @@ class Generator
 {
 
     public $paths = array();
+    public $filters = array();
     public $autoloader;
     public $static = true;
 
@@ -33,6 +34,10 @@ class Generator
         $this->paths[] = $file;
     }
 
+    public function addFilter($closure)
+    {
+        $this->filters[] = $closure;
+    }
 
     // XXX: doesnt work on namespace staff
     public function staticParse($file)
@@ -60,24 +65,38 @@ class Generator
         }
     }
 
-    public function generate($format = 'php')
+    public function filterClasses($classes)
     {
-
-        $classMap = array();
-
-        foreach( get_declared_interfaces() as $inf ) {
-            $ref = new \ReflectionClass($inf); 
-            if( $path = $ref->getFileName() ) {
-                $classMap[ $inf ] = $path;
-            }
+        foreach( $this->filters as $f ) {
+            $classes = array_filter( $classes , $f );
         }
+        return $classes;
+    }
 
-        foreach( get_declared_classes() as $c ) {
+    public function getClassMap($classes)
+    {
+        $map = array();
+        foreach( $classes as $c ) {
             $ref = new \ReflectionClass($c); 
             if( $path = $ref->getFileName() ) {
-                $classMap[ $c ] = $path;
+                $map[ $c ] = $path;
             }
         }
+        return $map;
+    }
+
+    public function generate($format = 'php')
+    {
+        // add extension filter (do not include extension classes )
+        $this->addFilter( function($class) { 
+            $ref = new \ReflectionClass($class); 
+            return $ref->getFileName() ? true : false;
+        });
+
+        $classes = get_declared_interfaces();
+        $classes = array_merge($classes, get_declared_classes() );
+        $classes = $this->filterClasses( $classes );
+        $classMap = $this->getClassMap( $classes );
 
         switch($format)
         {
@@ -97,7 +116,6 @@ class Generator
         $content = $this->generate($format);
         return file_put_contents( $file, $content );
     }
-
 
 }
 
