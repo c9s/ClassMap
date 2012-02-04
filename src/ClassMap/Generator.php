@@ -15,34 +15,62 @@ class Generator
 {
 
     public $paths = array();
+
     public $filters = array();
+
     public $mapFilters = array();
-    public $autoloader;
+
+    /**
+     * @var boolean autoload
+     */
+    public $autoload = true;
     public $static = true;
 
     public function __construct()
     {
+
     }
 
+
+    /**
+     * add source directory
+     */
     public function addDir($dir)
     {
         $this->paths[] = $dir;
     }
 
+
+    /**
+     * add file for scan
+     */
     public function addFile($file)
     {
         $this->paths[] = $file;
     }
 
+
+    /**
+     * add classname filter:
+     *
+     * @param callcack $cb function($cb)
+     */
     public function addFilter($closure)
     {
         $this->filters[] = $closure;
     }
 
+
+    /**
+     * add class map filter:
+     *
+     * @param callback $cb function($class,$file);
+     */
     public function addMapFilter($cb)
     {
         $this->mapFilters[] = $cb;
     }
+
 
     // XXX: doesnt work on namespace staff
     public function staticParse($file)
@@ -53,11 +81,19 @@ class Generator
         }
     }
 
+
+
+    /**
+     * load class files from paths
+     *
+     */
     public function load()
     {
-        $loader = new BasePathClassLoader( $this->paths );
-        $loader->useEnvPhpLib();
-        $loader->register();
+        if( $this->autoload ) {
+            $loader = new BasePathClassLoader( $this->paths );
+            $loader->useEnvPhpLib();
+            $loader->register();
+        }
 
         foreach( $this->paths as $path ) {
             $di = new RecursiveDirectoryIterator($path);
