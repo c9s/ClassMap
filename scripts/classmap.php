@@ -1,5 +1,5 @@
 <?php
-# require 'tests/bootstrap.php';
+require 'tests/bootstrap.php';
 use GetOptionKit\GetOptionKit;
 
 $opt = new GetOptionKit;
@@ -19,8 +19,8 @@ try {
         $format = $result->format ? $result->format->value : 'php';
         array_shift( $args );
 
-#          if( file_exists('src') )
-#              $g->addDir('src');
+        if( file_exists('src') )
+            $g->addDir('src');
 
         foreach( $args as $arg ) {
             $g->addDir( realpath( (string) $arg ) );

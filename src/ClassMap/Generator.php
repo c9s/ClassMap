@@ -103,7 +103,7 @@ class Generator
 
             foreach( $regex as $matches ) foreach( $matches as $match ) {
                 try {
-                    @require_once $match;
+                    require_once $match;
                 } 
                 catch ( Exception $e ) {
                     echo "$match class load failed.\n";
@@ -128,6 +128,7 @@ class Generator
             if( $path = $ref->getFileName() ) {
                 foreach( $this->mapFilters as $filter ) {
                     if( ! call_user_func( $filter, $c , $path ) ) {
+                        # echo "skip $c => $path\n";
                         continue 2;
                     }
                 }
@@ -149,7 +150,10 @@ class Generator
         $classes = get_declared_interfaces();
         $classes = array_merge($classes, get_declared_classes() );
         $classes = $this->filterClasses( $classes );
+        
+
         $classMap = $this->getClassFileMap( $classes );
+        
 
         switch($format)
         {
