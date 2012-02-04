@@ -128,12 +128,9 @@ class Generator
             if( $path = $ref->getFileName() ) {
                 foreach( $this->mapFilters as $filter ) {
                     if( ! call_user_func( $filter, $c , $path ) ) {
-                        echo "skip $path\n";
                         continue 2;
                     }
                 }
-
-                echo "set $c => $path\n";
                 $map[ $c ] = $path;
             }
         }

@@ -16,6 +16,10 @@ ClassMap generator generates class file mapping into a pure PHP array file, you 
 * PHP5.3
 * Reflection extension.
 
+## Install
+
+    $ sudo pear install pear.corneltek.com/ClassMap
+
 ## Synopsis
 
     $ ./classmap.phar src
