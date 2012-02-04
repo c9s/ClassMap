@@ -16,6 +16,7 @@ class Generator
 
     public $paths = array();
     public $autoloader;
+    public $static = true;
 
     public function __construct()
     {
@@ -33,7 +34,16 @@ class Generator
     }
 
 
-    public function scan()
+    // XXX: doesnt work on namespace staff
+    public function staticParse($file)
+    {
+        $source = file_get_contents($file);
+        if( preg_match_all( '/(?:abstract\s+class|class|interface)\s+(\w+)/i' ,$source, $matches ) ) {
+            var_dump( $matches ); 
+        }
+    }
+
+    public function load()
     {
         $loader = new BasePathClassLoader( $this->paths );
         $loader->useEnvPhpLib();
@@ -47,18 +57,47 @@ class Generator
             foreach( $regex as $matches ) foreach( $matches as $match ) {
                     require_once $match;
             }
-
         }
     }
 
-    public function generate($file,$format = 'php')
+    public function generate($format = 'php')
     {
+
+        $classMap = array();
+
+        foreach( get_declared_interfaces() as $inf ) {
+            $ref = new \ReflectionClass($inf); 
+            if( $path = $ref->getFileName() ) {
+                $classMap[ $inf ] = $path;
+            }
+        }
+
+        foreach( get_declared_classes() as $c ) {
+            $ref = new \ReflectionClass($c); 
+            if( $path = $ref->getFileName() ) {
+                $classMap[ $c ] = $path;
+            }
+        }
+
         switch($format)
         {
         case 'php':
+            return '<?php return ' . var_export( $classMap, true ) . ';';
             break;
+        case 'json':
+            return json_encode( $classMap );
+            break;
+        default:
+            throw new Exception("Unsupported format: $format");
         }
     }
+
+    public function generateFile($file,$format = 'php')
+    {
+        $content = $this->generate($format);
+        return file_put_contents( $file, $content );
+    }
+
 
 }
 
