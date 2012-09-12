@@ -1,5 +1,5 @@
 #!/bin/bash
-onion -d compile \
+onion compile \
     --lib src \
     --lib vendor/pear \
     --classloader \
@@ -7,3 +7,4 @@ onion -d compile \
     --executable \
     --output classmap.phar
 chmod +x classmap.phar
+mv classmap.phar classmap
