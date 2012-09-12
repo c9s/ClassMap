@@ -1,5 +1,4 @@
 <?php
-require 'tests/bootstrap.php';
 use GetOptionKit\GetOptionKit;
 
 $opt = new GetOptionKit;
@@ -14,7 +13,7 @@ try {
         $opt->specs->printOptions();
     }
     else {
-        $g = new ClassMap\Generator;
+        $g = new \ClassMap\Generator;
         $args = $result->arguments;
         $format = $result->format ? $result->format->value : 'php';
         array_shift( $args );
@@ -23,14 +22,13 @@ try {
             $g->addDir('src');
 
         foreach( $args as $arg ) {
-            $g->addDir( realpath( (string) $arg ) );
+            $g->addDir( (string) $arg );
         }
 
         $g->addMapFilter( function($class,$path) { 
             $ret = strpos( $path , 'classmap.phar' );
             return ($ret === false);
         });
-
         $g->load();
 
         if( $result->file ) {
@@ -45,5 +43,4 @@ try {
 } catch( Exception $e ) {
     echo $e->getMessage();
 }
-
 

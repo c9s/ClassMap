@@ -6,11 +6,6 @@ use RecursiveIteratorIterator;
 use RegexIterator;
 use RecursiveRegexIterator;
 
-/**
- * ClassMap Generator
- *
- */
-
 class Generator
 {
 
@@ -175,7 +170,4 @@ class Generator
     }
 
 }
-
-
-
 
