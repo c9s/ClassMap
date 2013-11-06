@@ -149,7 +149,7 @@ class Generator
         
 
         $classMap = $this->getClassFileMap( $classes );
-        
+        ksort($classMap);
 
         switch($format)
         {
