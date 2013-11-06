@@ -5,6 +5,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 use RecursiveRegexIterator;
+use Exception;
 
 class Generator
 {
@@ -148,7 +149,7 @@ class Generator
         
 
         $classMap = $this->getClassFileMap( $classes );
-        
+        ksort($classMap);
 
         switch($format)
         {
