@@ -5,6 +5,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 use RecursiveRegexIterator;
+use Exception;
 
 class Generator
 {
