@@ -45,11 +45,11 @@ ClassMap generator generates class file mapping into a pure PHP array file, you 
 
 ```php
     <?php
-    $mapGen = new ClassMap\Generator
+    $mapGen = new ClassMap\Generator();
     $mapGen->addDir( 'path/to/library' );
-    $mapGen->addFile( );
+    $mapGen->addFile( $file );
     $mapGen->addClass( $class, $file );
-    $mapGen->generate( 'class_map.php', 'php' );
+    $mapGen->generateFile( 'class_map.php', 'php' );
 
     $mapGen->autoload = true or false;  // turn on autoloader
 ```
