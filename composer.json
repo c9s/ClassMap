@@ -2,9 +2,15 @@
     "name": "corneltek/classmap",
     "version": "1.0.0",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "corneltek/universal": "*"
     },
     "require-dev": {
         "corneltek\/phpunit-testmore": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "ClassMap": "src"
+        }
     }
 }
