@@ -1,7 +1,9 @@
 #!/bin/bash
 onion compile \
     --lib src \
-    --lib vendor/pear \
+    --lib vendor/corneltek/universal/src \
+    --lib vendor/corneltek/getoptionkit/src \
+    --lib vendor/corneltek/cliframework/src \
     --classloader \
     --bootstrap scripts/classmap.php \
     --executable \
