@@ -145,6 +145,7 @@ class Generator
 
         $classes = get_declared_interfaces();
         $classes = array_merge($classes, get_declared_classes() );
+        $classes = array_merge($classes, get_declared_traits() );
         $classes = $this->filterClasses( $classes );
         
 
