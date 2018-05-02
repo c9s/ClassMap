@@ -92,18 +92,29 @@ class Generator
         }
 
         foreach( $this->paths as $path ) {
+	
+	        if ( is_file( $path ) ) {
+		        try {
+			        require_once $path;
+		        }
+		        catch ( Exception $e ) {
+			        echo "$path class load failed.\n";
+		        }
+		        continue;
+	        }
             $di = new RecursiveDirectoryIterator($path);
             $ita = new RecursiveIteratorIterator($di);
             $regex = new RegexIterator($ita, '/^.+\.php$/i', 
                 RecursiveRegexIterator::GET_MATCH);
 
-            foreach( $regex as $matches ) foreach( $matches as $match ) {
-                try {
-                    require_once $match;
-                } 
-                catch ( Exception $e ) {
-                    echo "$match class load failed.\n";
-                }
+            foreach( $regex as $matches ) {
+	            foreach ( $matches as $match ) {
+		            try {
+			            require_once $match;
+		            } catch (Exception $e) {
+			            echo "$match class load failed.\n";
+		            }
+	            }
             }
         }
     }
